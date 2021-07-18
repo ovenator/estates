@@ -42,9 +42,9 @@ class EstateSpider(scrapy.Spider):
 
     start_urls = [get_url(1)]
 
-    custom_settings = {
-        'ROBOTSTXT_OBEY': False
-    }
+    # custom_settings = {
+    #     'ROBOTSTXT_OBEY': False
+    # }
 
     def parse(self, response):
         res_obj = json.loads(response.text)
@@ -78,4 +78,4 @@ class EstateSpider(scrapy.Spider):
         current_page = response.meta.get('page', 1)
         if res_obj['result_size'] > per_page * current_page:
             next_page = current_page + 1
-            yield Request(url=SrealitySpider.get_url(next_page), meta={'page': next_page})
+            yield Request(url=EstateSpider.get_url(next_page), meta={'page': next_page})
