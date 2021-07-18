@@ -18,7 +18,7 @@ ages = {
 max_age_days = ages[os.environ.get('ESTATE_AGE', 'day')]
 
 
-class SrealitySpider(scrapy.Spider):
+class EstateSpider(scrapy.Spider):
     name = 'sreality'
     allowed_domains = ['sreality.cz']
 
