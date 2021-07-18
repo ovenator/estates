@@ -90,7 +90,7 @@ class EstateSpider(scrapy.Spider):
             lon = float(coords_arr[0]),
             lat = float(coords_arr[1])
         )
-        price = extract_number(response.css('div.price strong::text').extract_first())
+        price = extract_number(response.css('div.price strong::text').extract_first()) or -1
         url = response.url
         area = int(re.search('(\d+) m2', response.css('title::text').extract_first()).group(1))
         address = response.css('.locality::text').extract_first()
