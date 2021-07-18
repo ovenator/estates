@@ -94,7 +94,7 @@ class EstateSpider(scrapy.Spider):
         url = response.url
         area = int(re.search('(\d+) m2', response.css('title::text').extract_first()).group(1))
         address = response.css('.locality::text').extract_first()
-        pictures = list(map(lambda p: response.urljoin(p),response.css('.photos .thumbs a::attr(href)').extract()))
+        pictures = list(map(lambda p: {'url': response.urljoin(p)},response.css('.photos .thumbs a::attr(href)').extract()))
 
         yield Estate(
                     ext_key = ext_id,
