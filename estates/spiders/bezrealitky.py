@@ -43,7 +43,7 @@ class EstateSpider(scrapy.Spider):
                     orig_address = None,
                     coords_lon = coords['lon'],
                     coords_lat = coords['lat'],
-                    url = f'https://www.bezrelitky.cz/nemovitosti-byty-domy/{estate["uri"]}',
+                    url = f'https://www.bezrealitky.cz/nemovitosti-byty-domy/{estate["uri"]}',
                     price = price,
                     area = area,
                     pictures = []
