@@ -19,7 +19,9 @@ class Estate(scrapy.Item):
     orig_address = scrapy.Field()
     coords_lon = scrapy.Field()
     coords_lat = scrapy.Field()
-    source_key = scrapy.Field()
     ext_key = scrapy.Field()
-    version = scrapy.Field()
     pictures = scrapy.Field() #Array<EstatePicture>
+    floor = scrapy.Field()
+    total_floors = scrapy.Field()
+    outer_space = scrapy.Field()
+    content = scrapy.Field()
