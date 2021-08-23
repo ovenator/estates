@@ -14,11 +14,11 @@ from estates.items import Estate, EstatePicture
 class EstateSpider(CrawlSpider):
     name = 'realitymix'
     allowed_domains = ['realitymix.cz']
-    start_urls = ['https://realitymix.cz/vyhledavani/praha/byty.html']
+    start_urls = ['https://realitymix.cz/vyhledavani/praha/prodej-bytu.html']
 
     rules = [
         Rule(LinkExtractor(allow='/detail/praha/'), callback='parse_item'),
-        Rule(LinkExtractor(allow='/vyhledavani/praha/byty\.html\?stranka='), follow=True)
+        Rule(LinkExtractor(allow='/vyhledavani/praha/prodej\-bytu\.html\?stranka='), follow=True)
     ]
 
 
