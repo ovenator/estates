@@ -14,11 +14,11 @@ from estates.items import Estate, EstatePicture
 class EstateSpider(CrawlSpider):
     name = 'realitymix'
     allowed_domains = ['realitymix.cz']
-    start_urls = ['https://realitymix.cz/vypis-nabidek/?form%5Badresa_kraj_id%5D[]=19&form%5Badresa_obec_id%5D=&form%5Bcena_mena%5D=&form%5Bcena_normalizovana__from%5D=1000000&form%5Bcena_normalizovana__to%5D=&form%5Bexclusive%5D=&form%5Bfk_rk%5D=&form%5Binzerat_typ%5D=1&form%5Bnemovitost_typ%5D=4&form%5Bplocha__from%5D=&form%5Bplocha__to%5D=&form%5Bpodlazi_cislo__from%5D=&form%5Bpodlazi_cislo__to%5D=&form%5Bprojekt_id%5D=&form%5Bsearch_in_city%5D=&form%5Bsearch_in_text%5D=&form%5Bstari_inzeratu%5D=&form%5Bstav_objektu%5D=&form%5Btop_nabidky%5D=&form%5Bvlastnictvi%5D[]=1']
+    start_urls = ['https://realitymix.cz/vyhledavani/praha/byty.html']
 
     rules = [
         Rule(LinkExtractor(allow='/detail/praha/'), callback='parse_item'),
-        Rule(LinkExtractor(allow='/vypis\-nabidek/\?form'), follow=True)
+        Rule(LinkExtractor(allow='/vyhledavani/praha/byty\.html\?stranka='), follow=True)
     ]
 
 
@@ -63,6 +63,8 @@ class EstateSpider(CrawlSpider):
             if re.search('<span>Lodžie:</span><span>ano</span>', data):
                 outer_space = True
 
+            if not re.search('<span>Vlastnictví:</span><span>osobní</span>', data):
+                return
 
             yield Estate(
                 ext_key = ext_key,
