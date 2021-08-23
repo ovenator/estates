@@ -9,7 +9,7 @@ from scrapy.exceptions import DropItem
 from scrapy.spiders import Rule, CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from estates.common import extract_number, extract_number_str, strip
+from estates.common import extract_number, extract_number_str, strip, write_error
 from estates.items import Estate, Coords, EstatePicture
 
 
@@ -71,7 +71,7 @@ class EstateSpider(CrawlSpider):
             except Exception:
                 pass
 
-            outer_space = bool(re.search('Terasa|Balkon', response.css('.b-definition-columns').extract_first()))
+            outer_space = bool(re.search('Terasa|Balkon|Lodžie', response.css('.b-definition-columns').extract_first()))
 
 
             yield Estate(
@@ -89,6 +89,5 @@ class EstateSpider(CrawlSpider):
                 coords_lat = coords_lat
             )
         except Exception as e:
-            with open("errors.log", "a") as f:
-                traceback.print_exc(file=f)
+            write_error()
 

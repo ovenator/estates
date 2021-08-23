@@ -25,3 +25,19 @@ class Estate(scrapy.Item):
     total_floors = scrapy.Field()
     outer_space = scrapy.Field()
     content = scrapy.Field()
+
+
+Estate(
+    ext_key = None,
+    orig_address = None,
+    coords_lon = None,
+    coords_lat = None,
+    url = None,
+    price = None,
+    area = None,
+    pictures = None,
+    floor = None,
+    total_floors = None,
+    outer_space = None,
+    content = None
+)

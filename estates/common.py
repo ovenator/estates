@@ -1,4 +1,5 @@
 import re
+import traceback
 import unicodedata
 
 def parameterize(string_to_clean, sep = '-'):
@@ -44,7 +45,7 @@ def extract_number(in_str):
     res = extract_number_str(in_str)
     return int(res) if res else None
 
-
-
-
+def write_error():
+    with open("errors.log", "a") as f:
+        traceback.print_exc(file=f)
 
