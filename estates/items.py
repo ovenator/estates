@@ -25,7 +25,7 @@ class Estate(scrapy.Item):
     total_floors = scrapy.Field()
     outer_space = scrapy.Field()
     content = scrapy.Field()
-
+    seller_ref = scrapy.Field()
 
 Estate(
     ext_key = None,
@@ -39,5 +39,6 @@ Estate(
     floor = None,
     total_floors = None,
     outer_space = None,
-    content = None
+    content = None,
+    seller_ref = None
 )

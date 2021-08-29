@@ -32,17 +32,28 @@ class EstateSpider(CrawlSpider):
             coords_lat = None
 
             if response.css('#map::attr(data-gps-lon)').extract_first():
-                coords_lon = float(response.css('#map::attr(data-gps-lon)').extract_first()),
-                coords_lat = float(response.css('#map::attr(data-gps-lat)').extract_first()),
+                coords_lon = float(response.css('#map::attr(data-gps-lon)').extract_first())
+                coords_lat = float(response.css('#map::attr(data-gps-lat)').extract_first())
 
             price = extract_number(response.css('.advert-detail-heading__price-value::text').extract_first())
+
+            if not price:
+                return
+
             area = extract_number(response.css('.advert-detail-heading__title::text').extract_first().split(',')[-1])
             pictures = list(map(lambda l: EstatePicture(url=l), response.css('.gallery__items img::attr(src)').extract()))
 
             floor = None
             total_floors = None
             outer_space = False
+            seller_data = deep_strip(response.css('.advert-description__short-props').extract_first())
             data = deep_strip(response.css('.detail-information__data-wrapper').extract_first())
+            seller_ref = None
+
+            try:
+                seller_ref = re.search('<tr><td>Číslozakázky:</td><td>REALITYMIX-(.*?)</td></tr>', seller_data).group(1)
+            except Exception:
+                pass
 
             try:
                 floor = extract_number(re.search('<span>Číslopodlažívdomě:</span><span>(\d+)</span>', data).group(1))
@@ -78,7 +89,8 @@ class EstateSpider(CrawlSpider):
                 floor = floor,
                 total_floors = total_floors,
                 outer_space = outer_space,
-                content = response.css('.advert-description__text').extract_first()
+                content = response.css('.advert-description__text').extract_first(),
+                seller_ref = seller_ref
             )
 
         except Exception:
