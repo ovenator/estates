@@ -72,7 +72,12 @@ class EstateSpider(scrapy.Spider):
                 url = f'https://www.sreality.cz/detail/prodej/hello/world/folks/{ext_id}',
                 price = price,
                 area = area,
-                pictures = pictures
+                pictures = pictures,
+                floor = None,
+                total_floors = None,
+                outer_space = None,
+                content = None,
+                seller_ref = None
             )
 
         current_page = response.meta.get('page', 1)

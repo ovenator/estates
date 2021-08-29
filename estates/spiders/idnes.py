@@ -9,7 +9,7 @@ from scrapy.exceptions import DropItem
 from scrapy.spiders import Rule, CrawlSpider
 from scrapy.linkextractors import LinkExtractor
 
-from estates.common import extract_number, extract_number_str, strip, write_error
+from estates.common import extract_number, extract_number_str, strip, write_error, deep_strip
 from estates.items import Estate, Coords, EstatePicture
 
 
@@ -49,6 +49,8 @@ class EstateSpider(CrawlSpider):
             coords_lon = None
             coords_lat = None
             geo_obj = response.css('script[data-maptiler-json]::text').extract_first()
+            params = deep_strip(response.css('.b-definition-columns').extract_first())
+            seller_ref = None
 
             if geo_obj:
                 feature = json.loads(geo_obj)['geojson']['features'][0]
@@ -71,8 +73,12 @@ class EstateSpider(CrawlSpider):
             except Exception:
                 pass
 
-            outer_space = bool(re.search('Terasa|Balkon|Lodžie', response.css('.b-definition-columns').extract_first()))
+            try:
+                seller_ref = re.search('<dt>Číslozakázky</dt><dd>IDNES-(.*?)</dd>', params).group(1)
+            except Exception:
+                pass
 
+            outer_space = bool(re.search('Terasa|Balkon|Lodžie', response.css('.b-definition-columns').extract_first()))
 
             yield Estate(
                 ext_key = ext_key,
@@ -86,7 +92,8 @@ class EstateSpider(CrawlSpider):
                 outer_space = outer_space,
                 content = response.css('.b-desc').extract_first(),
                 coords_lon = coords_lon,
-                coords_lat = coords_lat
+                coords_lat = coords_lat,
+                seller_ref = seller_ref
             )
         except Exception as e:
             write_error()
