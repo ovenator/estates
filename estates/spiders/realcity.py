@@ -34,7 +34,7 @@ class EstateSpider(CrawlSpider):
             area = extract_number(re.search('(\d+)\sm²', response.css('title::text').extract_first()).group(1))
             params = deep_strip(response.css('.description').extract_first())
             seller_ref = None
-            pictures = list(map(lambda l: EstatePicture(url=l), response.css('.gallery .thumbs a::attr(href)').extract()))
+            pictures = list(map(lambda l: EstatePicture(url='https:' + l), response.css('.gallery .thumbs a::attr(href)').extract()))
             outer_space = False
             floor = None
             map_url = response.css('#rc-advertise-map::attr(src)').extract_first()
