@@ -23,6 +23,7 @@ USER_AGENT = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
+# URLLENGTH_LIMIT = 5000
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

@@ -18,7 +18,7 @@ class EstateSpider(CrawlSpider):
 
     rules = [
         Rule(LinkExtractor(allow='/nemovitost/'), callback='parse_item'),
-        Rule(LinkExtractor(allow='/prodej\-bytu/hlavni\-mesto\-praha\-1\?list\-page='), follow=True)
+        Rule(LinkExtractor(allow='/prodej\-bytu/hlavni\-mesto\-praha\-1\?list\-page=', restrict_css='.navigation'), follow=True)
     ]
 
 
@@ -40,6 +40,9 @@ class EstateSpider(CrawlSpider):
             map_url = response.css('#rc-advertise-map::attr(src)').extract_first()
             coords_lon = None
             coords_lat = None
+
+            if not re.search('Vlastnictví</span><spanclass="list\-group\-item\-value">osobní</span>', params):
+                return
 
             try:
                 seller_ref = extract_number(re.search('Kódzakázky</span><spanclass="list-group-item-value">(.*?)</span>', params).group(1))
